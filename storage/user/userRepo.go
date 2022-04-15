@@ -16,7 +16,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{db: db}
 }
 
-func GetUserByID(uid uint) (User, error) {
+func GetUserByID(uid int) (User, error) {
 	var r *UserRepository
 	var u User
 

@@ -1,30 +1,28 @@
-package services
+package cart
 
 import (
 	"context"
 
-	"github.com/Chubacabrazz/picus-storeApp/storage/models"
-	"github.com/Chubacabrazz/picus-storeApp/storage/repo"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
 type basketService struct {
-	repo repo.Repository
+	repo Repository
 }
 
 type Service interface {
-	Get(ctx context.Context, ID string) (*models.Cart, error)
-	GetByCustomerId(ctx context.Context, customerId string) (*models.Cart, error)
-	Create(ctx context.Context, buyer string) (*models.Cart, error)
-	Delete(ctx context.Context, ID string) (*models.Cart, error)
+	Get(ctx context.Context, ID string) (*Cart, error)
+	GetByCustomerId(ctx context.Context, customerId string) (*Cart, error)
+	Create(ctx context.Context, customerId string) (*Cart, error)
+	Delete(ctx context.Context, ID string) (*Cart, error)
 
 	UpdateItem(ctx context.Context, CartID, ProductID string, Quantity int) error
 	AddItem(ctx context.Context, CartID, sku string, Quantity int, Price float64) (string, error)
 	DeleteItem(ctx context.Context, CartID, ProductID string) error
 }
 
-func NewBasketService(repo repo.Repository) Service {
+func NewBasketService(repo Repository) Service {
 	if repo == nil {
 		return nil
 	}
@@ -32,7 +30,7 @@ func NewBasketService(repo repo.Repository) Service {
 	return &basketService{repo: repo}
 }
 
-func (b *basketService) Get(ctx context.Context, id string) (*models.Cart, error) {
+func (b *basketService) Get(ctx context.Context, id string) (*Cart, error) {
 	if len(id) == 0 {
 		return nil, errors.New("Id cannot be nil or empty")
 	}
@@ -41,7 +39,7 @@ func (b *basketService) Get(ctx context.Context, id string) (*models.Cart, error
 	return basket, nil
 }
 
-func (b *basketService) GetByCustomerId(ctx context.Context, customerId string) (basket *models.Cart, err error) {
+func (b *basketService) GetByCustomerId(ctx context.Context, customerId string) (basket *Cart, err error) {
 
 	basket = b.repo.GetByCustomerId(ctx, customerId)
 	if err != nil {
@@ -52,12 +50,12 @@ func (b *basketService) GetByCustomerId(ctx context.Context, customerId string) 
 }
 
 // Create creates a new basket
-func (b *basketService) Create(ctx context.Context, customerId string) (*models.Cart, error) {
+func (b *basketService) Create(ctx context.Context, customerId string) (*Cart, error) {
 
-	basket := &models.Cart{
+	basket := &Cart{
 		ID:         uuid.New().String(),
 		CustomerId: customerId,
-		Items:      nil,
+		Products:   nil,
 	}
 	err := b.repo.Create(ctx, basket)
 
@@ -70,10 +68,10 @@ func (b *basketService) Create(ctx context.Context, customerId string) (*models.
 func (b *basketService) AddItem(ctx context.Context, basketId, sku string, quantity int, price float64) (string, error) {
 	basket := b.repo.Get(ctx, basketId)
 	if basket == nil {
-		return "", errors.Errorf("Service: Get basket error. models.Cart Id : %s", basketId)
+		return "", errors.Errorf("Service: Get basket error. .Cart Id : %s", basketId)
 	}
 	if basket == nil {
-		return "", errors.New("Service: models.Cart not found")
+		return "", errors.New("Service: .Cart not found")
 	}
 	item, err := basket.AddItem(sku, price, quantity)
 	if err != nil {
@@ -91,10 +89,10 @@ func (b *basketService) UpdateItem(ctx context.Context, basketId, itemId string,
 
 	basket := b.repo.Get(ctx, basketId)
 	if basket == nil {
-		return errors.Errorf("Service: Get basket error. models.Cart Id:%s", basketId)
+		return errors.Errorf("Service: Get basket error. .Cart Id:%s", basketId)
 	}
 	if basket == nil {
-		return errors.New("Service: models.Cart not found")
+		return errors.New("Service: .Cart not found")
 	}
 	err := basket.UpdateItem(itemId, quantity)
 
@@ -111,14 +109,14 @@ func (b *basketService) DeleteItem(ctx context.Context, basketId, itemId string)
 
 	basket := b.repo.Get(ctx, basketId)
 	if basket == nil {
-		return errors.Errorf("Service: Get basket error. models.Cart Id:%s", basketId)
+		return errors.Errorf("Service: Get basket error. .Cart Id:%s", basketId)
 	}
 	if basket == nil {
-		return errors.New("Service: models.Cart not found")
+		return errors.New("Service: .Cart not found")
 	}
 	err := basket.RemoveItem(itemId)
 	if err != nil {
-		return errors.Wrap(err, "Service: models.Cart Item not found.")
+		return errors.Wrap(err, "Service: .Cart Item not found.")
 	}
 	if err := b.repo.Update(ctx, *basket); err != nil {
 		return errors.Wrap(err, "Service: Failed to update basket in data storage.")
@@ -127,13 +125,13 @@ func (b *basketService) DeleteItem(ctx context.Context, basketId, itemId string)
 }
 
 //Delete deletes the basket with the spesified Id
-func (b *basketService) Delete(ctx context.Context, id string) (*models.Cart, error) {
+func (b *basketService) Delete(ctx context.Context, id string) (*Cart, error) {
 	basket, err := b.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 	if basket == nil {
-		return nil, errors.New("Service: models.Cart not found")
+		return nil, errors.New("Service: .Cart not found")
 	}
 	if err = b.repo.Delete(ctx, *basket); err != nil {
 		return nil, errors.Wrap(err, "Service:Failed to delete basket")

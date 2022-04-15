@@ -1,7 +1,6 @@
-package repo
+package product
 
 import (
-	"github.com/Chubacabrazz/picus-storeApp/storage/entity"
 	"gorm.io/gorm"
 )
 
@@ -14,5 +13,5 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 }
 
 func (r *ProductRepository) Migration() {
-	r.db.AutoMigrate(&entity.Product{})
+	r.db.AutoMigrate(&Product{})
 }

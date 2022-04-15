@@ -1,4 +1,4 @@
-package entity
+package product
 
 import (
 	"gorm.io/gorm"
@@ -6,11 +6,11 @@ import (
 
 type Product struct {
 	gorm.Model
-	ID       int    `gorm:"unique"`
+	ID       string `gorm:"unique"`
 	Name     string `gorm:"unique"`
 	Desc     string
 	SKU      string
-	Price    int
+	Price    float64
 	Quantity int
 }
 

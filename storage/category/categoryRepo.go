@@ -1,8 +1,6 @@
-package repo
+package category
 
 import (
-	"github.com/Chubacabrazz/picus-storeApp/storage/entity"
-	"github.com/Chubacabrazz/picus-storeApp/storage/helper"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -17,10 +15,10 @@ func NewCategoryRepository(db *gorm.DB) *CategoryRepository {
 	return &CategoryRepository{db: db}
 }
 
-func (r *CategoryRepository) GetAll() (*[]entity.Category, error) {
+func (r *CategoryRepository) GetAll() (*[]Category, error) {
 	zap.L().Debug("repo.repo.getAll")
 
-	var bs = &[]entity.Category{}
+	var bs = &[]Category{}
 	if err := r.db.Find(&bs).Error; err != nil {
 		zap.L().Error("failed to get categories", zap.Error(err))
 		return nil, err
@@ -30,15 +28,15 @@ func (r *CategoryRepository) GetAll() (*[]entity.Category, error) {
 
 }
 func (r *CategoryRepository) Migration() {
-	r.db.AutoMigrate(&entity.Category{})
+	r.db.AutoMigrate(&Category{})
 }
 
 // Func InsertData starts a concurrent csv reading operation and write them to database.
 func (c *CategoryRepository) InsertData() {
-	helper.ReadCategoryWithWorkerPool(csvfile)
-	categories := []entity.Category{}
-	for _, category := range helper.CategoryList {
-		newItem := entity.Category{
+	ReadCategoryWithWorkerPool(csvfile)
+	categories := []Category{}
+	for _, category := range CategoryList {
+		newItem := Category{
 			ID:       category.ID,
 			Name:     category.Name,
 			Desc:     category.Desc,

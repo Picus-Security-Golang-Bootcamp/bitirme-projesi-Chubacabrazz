@@ -11,8 +11,10 @@ import (
 
 	//graceful "github.com/Chubacabrazz/picus-storeApp/pkg/gracefulExit"
 	"github.com/Chubacabrazz/picus-storeApp/pkg/logger"
-	"github.com/Chubacabrazz/picus-storeApp/storage/handlers"
-	"github.com/Chubacabrazz/picus-storeApp/storage/repo"
+	"github.com/Chubacabrazz/picus-storeApp/storage/cart"
+	"github.com/Chubacabrazz/picus-storeApp/storage/category"
+	"github.com/Chubacabrazz/picus-storeApp/storage/order"
+	"github.com/Chubacabrazz/picus-storeApp/storage/product"
 	"github.com/Chubacabrazz/picus-storeApp/storage/user"
 	"github.com/gin-gonic/gin"
 )
@@ -34,20 +36,7 @@ func main() {
 
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
-	/* r.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		// your custom format
-		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.ClientIP,
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	})) */
+
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.ServerConfig.Port),
 		Handler:      r,
@@ -64,22 +53,22 @@ func main() {
 	userRouter := rootRouter.Group("/user")
 
 	// Category Repository
-	CategoryRepo := repo.NewCategoryRepository(DB)
+	CategoryRepo := category.NewCategoryRepository(DB)
 	CategoryRepo.Migration()
 	//CategoryRepo.InsertData()
-	handlers.CategoryHandler(categoryRouter, CategoryRepo)
+	category.CategoryHandler(categoryRouter, CategoryRepo)
 	// Product Repository
-	ProductRepo := repo.NewProductRepository(DB)
+	ProductRepo := product.NewProductRepository(DB)
 	ProductRepo.Migration()
 	// User Repository
 	UserRepo := user.NewUserRepository(DB)
 	UserRepo.Migration()
 	user.NewUserHandler(userRouter, UserRepo)
 	// Order Repository
-	OrderDetailsRepo := repo.NewOrderDetailsRepository(DB)
+	OrderDetailsRepo := order.NewOrderDetailsRepository(DB)
 	OrderDetailsRepo.Migration()
 	// Cart Repository
-	CartRepo := repo.NewCartRepository(DB)
+	CartRepo := cart.NewCartRepository(DB)
 	CartRepo.Migration()
 	/* SessionRepo := repo.NewSession(DB)
 	SessionRepo.Migration() */
@@ -92,6 +81,6 @@ func main() {
 	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
 	}
-	/* log.Println("Book store service started")
+	/* log.Println("Picus store service started")
 	graceful.ShutdownGin(srv, time.Duration(cfg.ServerConfig.TimeoutSecs*int(time.Second))) */
 }

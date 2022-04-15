@@ -1,7 +1,6 @@
-package repo
+package order
 
 import (
-	"github.com/Chubacabrazz/picus-storeApp/storage/entity"
 	"gorm.io/gorm"
 )
 
@@ -15,5 +14,5 @@ func NewOrderDetailsRepository(db *gorm.DB) *OrderDetailsRepository {
 }
 
 func (r *OrderDetailsRepository) Migration() {
-	r.db.AutoMigrate(&entity.Order_details{})
+	r.db.AutoMigrate(&Order_details{})
 }

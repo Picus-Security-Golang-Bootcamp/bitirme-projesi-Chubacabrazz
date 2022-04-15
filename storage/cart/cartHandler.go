@@ -1,20 +1,19 @@
-package handlers
+package cart
 
 import (
 	"database/sql"
 	"net/http"
 	"strconv"
 
-	"github.com/Chubacabrazz/picus-storeApp/storage/services"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
 
 type cartHandler struct {
-	service services.Service
+	service Service
 }
 
-func NewBasketHandler(r *gin.RouterGroup, service services.Service) {
+func NewBasketHandler(r *gin.RouterGroup, service Service) {
 	h := &cartHandler{service: service}
 
 	r.GET("/:ID", h.getBasket)

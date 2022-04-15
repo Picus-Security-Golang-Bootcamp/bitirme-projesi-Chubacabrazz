@@ -1,25 +1,23 @@
-package repo
+package cart
 
 import (
 	"context"
 
-	"github.com/Chubacabrazz/picus-storeApp/storage/entity"
-	"github.com/Chubacabrazz/picus-storeApp/storage/models"
 	"gorm.io/gorm"
 )
 
 // Repository encapsulates the logic to access basket from the data source.
 type Repository interface {
 	// Get returns the basket with the specified basket Id.
-	Get(ctx context.Context, id string) *models.Cart
+	Get(ctx context.Context, id string) *Cart
 	// GetByCustomerId returns the basket with the specified customer Id.
-	GetByCustomerId(ctx context.Context, customerId string) *models.Cart
+	GetByCustomerId(ctx context.Context, customerId string) *Cart
 	// Create saves a new basket in the storage.
-	Create(ctx context.Context, basket *models.Cart) error
+	Create(ctx context.Context, basket *Cart) error
 	// Update updates the basket with given Is in the storage.
-	Update(ctx context.Context, basket models.Cart) error
+	Update(ctx context.Context, basket Cart) error
 	// Delete removes the basket with given Is from the storage.
-	Delete(ctx context.Context, basket models.Cart) error
+	Delete(ctx context.Context, basket Cart) error
 }
 
 // cartRepository Repo
@@ -32,7 +30,7 @@ func NewCartRepository(db *gorm.DB) *cartRepository {
 }
 
 func (r *cartRepository) Migration() {
-	r.db.AutoMigrate(&entity.Cart{})
+	r.db.AutoMigrate(&Cart{})
 }
 
 // Shopping Session Repo
