@@ -1,0 +1,17 @@
+ID,Name,Desc,IsActive
+30,Banyo,Evinizin banyosunda ihtiyaç duyduğunuz her şey burada,true
+31,Beyaz Eşya,Beyaz eşya ihtiyaçlarınızı edinin,true
+32,Petshop,Evcil hayvanınızın ihtiyaçlarını karşılayabilirsiniz,true
+33,Outdoor,Sert doğa şartlarına dayanıklı ürünler,true
+34,Erkek Moda,Erkek giyim ürünleri,true
+35,Kadın Moda,Kadın giyim ürünleri,true
+36,Süpermarket,Evinizin market ihtiyacı,true
+37,Ayakkabı,En uygun ayakkabılar,true
+38,Aksesuar,En tarz aksesuarlar,true
+39,Kitap,Birinci kalite baskı kitaplar,true
+40,Bebek Ürünleri,Bebeğinizin ihtiyaçlarını karşılayın,true
+41,Kırtasiye,Tüm ofis ve okul ürünleri burada,true
+42,Mobilya,Tüm ihtiyaç duyduğunuz mobilya malzemeleri burada,true
+43,Kozmetik,Kozmetik ihtiyacınızı karşılayın,true
+44,Temizlik,Tüm temizlik malzemeleri burada,true
+45,Dekorasyon,Dekorasyon ürünleriniz burada,true

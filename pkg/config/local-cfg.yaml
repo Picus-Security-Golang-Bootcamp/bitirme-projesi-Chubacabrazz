@@ -1,0 +1,31 @@
+ServerConfig:
+  AppVersion: 1.0.0
+  Mode: Development
+  RoutePrefix: /api/v1/picus-storeApp
+  Debug: false
+  Port: 8080
+  TimeoutSecs: 60
+  ReadTimeoutSecs: 60
+  WriteTimeoutSecs: 20
+
+JWTConfig:
+  SessionTime: 3600
+  SecretKey: PicusS3cur1tyPr0ject
+
+DBConfig:
+  Name: picus-storeApp
+  MaxOpen: 500
+  MaxIdle: 500
+  MaxLifetime: 50
+  MigrationFolder: file://migrations
+
+
+Logger:
+  Development: true
+  Encoding: json
+  Level: error
+
+CartConfig:
+  MaxAllowedForBasket: 20
+  MaxAllowedQtyPerProduct: 9
+  MinCartAmountForOrder: 50
