@@ -8,8 +8,7 @@ import (
 
 	"github.com/Chubacabrazz/picus-storeApp/pkg/config"
 	db "github.com/Chubacabrazz/picus-storeApp/pkg/database"
-
-	//graceful "github.com/Chubacabrazz/picus-storeApp/pkg/gracefulExit"
+	graceful "github.com/Chubacabrazz/picus-storeApp/pkg/gracefulExit"
 	"github.com/Chubacabrazz/picus-storeApp/pkg/logger"
 	"github.com/Chubacabrazz/picus-storeApp/storage/cart"
 	"github.com/Chubacabrazz/picus-storeApp/storage/category"
@@ -55,7 +54,7 @@ func main() {
 	// Category Repository
 	CategoryRepo := category.NewCategoryRepository(DB)
 	CategoryRepo.Migration()
-	//CategoryRepo.InsertData()
+	//CategoryRepo.InsertData() for manual checking category csv update function.
 	category.CategoryHandler(categoryRouter, CategoryRepo)
 	// Product Repository
 	ProductRepo := product.NewProductRepository(DB)
@@ -81,6 +80,6 @@ func main() {
 	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
 	}
-	/* log.Println("Picus store service started")
-	graceful.ShutdownGin(srv, time.Duration(cfg.ServerConfig.TimeoutSecs*int(time.Second))) */
+	log.Println("Picus Store service started")
+	graceful.ShutdownGin(srv, time.Duration(cfg.ServerConfig.TimeoutSecs*int(time.Second)))
 }

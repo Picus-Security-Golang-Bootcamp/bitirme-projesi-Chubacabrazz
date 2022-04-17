@@ -16,7 +16,7 @@ func NewCategoryRepository(db *gorm.DB) *CategoryRepository {
 }
 
 func (r *CategoryRepository) GetAll() (*[]Category, error) {
-	zap.L().Debug("repo.repo.getAll")
+	zap.L().Debug("repo.getAll")
 
 	var bs = &[]Category{}
 	if err := r.db.Find(&bs).Error; err != nil {
