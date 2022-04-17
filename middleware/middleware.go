@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//Middleware for checking user token is valid.
 func JwtAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := helper.TokenValid(c)

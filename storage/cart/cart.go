@@ -20,18 +20,6 @@ func (Cart) TableName() string {
 	return "Cart"
 }
 
-/* type Shopping_Session struct {
-	gorm.Model
-	ID     int `gorm:"unique"`
-	UserId int
-	Total  int
-}
-
-func (Shopping_Session) TableName() string {
-	//default table name
-	return "Shopping_Session"
-} */
-
 var cfg *config.Config
 
 func Create(customer string) (*Cart, error) {

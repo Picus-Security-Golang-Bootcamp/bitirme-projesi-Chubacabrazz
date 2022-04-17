@@ -10,7 +10,7 @@ ServerConfig:
 
 JWTConfig:
   SessionTime: 3600
-  SecretKey: PicusS3cur1tyPr0ject
+  SecretKey: ***
 
 DBConfig:
   Name: picus-storeApp

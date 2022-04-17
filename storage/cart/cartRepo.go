@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Repository encapsulates the logic to access basket from the data source.
 type Repository interface {
 	// Get returns the basket with the specified basket Id.
 	Get(ctx context.Context, id string) *Cart
@@ -32,16 +31,3 @@ func NewCartRepository(db *gorm.DB) *cartRepository {
 func (r *cartRepository) Migration() {
 	r.db.AutoMigrate(&Cart{})
 }
-
-// Shopping Session Repo
-/* type Session struct {
-	db *gorm.DB
-}
-
-func NewSession(db *gorm.DB) *Session {
-	return &Session{db: db}
-}
-
-func (r *Session) Migration() {
-	r.db.AutoMigrate(&entity.Shopping_Session{})
-} */
